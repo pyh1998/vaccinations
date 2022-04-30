@@ -21,8 +21,6 @@ def analyse(path_to_file):
     unique_locations = count_unique_locations(table_without_header)
     unique_countries = count_unique_countries(table_without_header)
 
-    pass
-
 
 def count_unique_locations(table):
     locations = [row[0] for row in table]
