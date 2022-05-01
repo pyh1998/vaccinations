@@ -16,28 +16,102 @@ def analyse(path_to_file):
         reader = csv.reader(csvfile)
         table = [row for row in reader]
     table_without_header = [table[i] for i in range(1, len(table))]
-    # Question1
+    # Question 1
     print("\nQuestion 1:")
     unique_locations = count_unique_locations(table_without_header)
     unique_countries = count_unique_countries(table_without_header)
+    global_vaccince_doses(table_without_header)
+    global_population_vaccinated(table_without_header)
+    global_fully_population_vaccinated(table_without_header)
+    # Question 2
+    print("\nQuestion 2:")
 
 
 def count_unique_locations(table):
-    locations = [row[0] for row in table]
-    locations = list(set(locations))
+    """
+    Count how many unique locations are there in the data file.
+    Parameter table: A list of lists (each row).
+    Parameter locations: A list of locations (Duplicate removal).
+    Return a total number of unique locations.
+    """
+    locations = [row[0] for row in table] # A list of locations 
+    locations = list(set(locations)) # Duplicate removal
     print("Number of unique locations:", len(locations))
     return len(locations)
 
 
 def count_unique_countries(table):
-    countries = [row[1] for row in table]
-    countries = list(set(countries))
+    """
+    Count the number of unique countries (that do not have OWID_ prefix in the iso_code).
+    Parameter table: A list of lists (each row).
+    Parameter countries: A list of countries (Duplicate removal).
+    Return a total number of unique countries.
+    """
+    countries = [row[1] for row in table] # A list of countries
+    countries = list(set(countries)) # Duplicate removal
     count = 0
     for country in countries:
-        if "OWID_" not in country:
+        if "OWID_" not in country: # Check countries do not have OWID_ prefix
             count += 1
     print("Number of unique countries:", count)
     return count
+
+
+def global_vaccince_doses(table):
+    """
+    Count the total number of vaccine doses that have been globally administered in all countries.
+    Parameter table: A list of lists (each row).
+    Parameter countries_total_vax: A list of countries meet the criteria with its total_vaccinations.
+    Parameter result: A list of countries meet the criteria with its biggest total_vaccinations.
+    Parameter count: A list of biggest total_vaccinations for each country meets the criteria.
+    Return a total number of count.
+    """
+    countries_total_vax = [[row[1], row[3]] for row in table if "OWID_" not in row[1] and row[3] != ""]
+    result = []
+    for i in range(len(countries_total_vax)):
+        if(i == len(countries_total_vax)-1 or countries_total_vax[i][0] != countries_total_vax[i+1][0]):
+            result.append(countries_total_vax[i])
+    count = [int(row[1]) for row in result]
+    print("Global vaccince doses:", sum(count))
+    return sum(count)
+
+
+def global_population_vaccinated(table):
+    """
+    Count the global number of people who have received at least one dose over all countries in the world.
+    Parameter table: A list of lists (each row).
+    Parameter countries_people_vaccinated: A list of countries meet the criteria with its people_vaccinated.
+    Parameter result: A list of countries meet the criteria with its biggest people_vaccinated.
+    Parameter count: A list of biggest people_vaccinated for each country meets the criteria.
+    Return a total number of count.
+    """
+    countries_people_vaccinated = [[row[1], row[4]] for row in table if "OWID_" not in row[1] and row[4] != ""]
+    result = []
+    for i in range(len(countries_people_vaccinated)):
+        if(i == len(countries_people_vaccinated)-1 or countries_people_vaccinated[i][0] != countries_people_vaccinated[i+1][0]):
+            result.append(countries_people_vaccinated[i])
+    count = [int(row[1]) for row in result]
+    print("Global population vaccinated:", sum(count))
+    return sum(count)
+
+
+def global_fully_population_vaccinated(table):
+    """
+    Count the global number of people who are fully vaccinated.
+    Parameter table: A list of lists (each row).
+    Parameter countries_people_fully_vaccinated: A list of countries meet the criteria with its people_fully_vaccinated.
+    Parameter result: A list of countries meet the criteria with its biggest people_fully_vaccinated.
+    Parameter count: A list of biggest people_fully_vaccinated for each country meets the criteria.
+    Return a total number of count.
+    """
+    countries_people_fully_vaccinated = [[row[1], row[5]] for row in table if "OWID_" not in row[1] and row[5] != ""]
+    result = []
+    for i in range(len(countries_people_fully_vaccinated)):
+        if(i == len(countries_people_fully_vaccinated)-1 or countries_people_fully_vaccinated[i][0] != countries_people_fully_vaccinated[i+1][0]):
+            result.append(countries_people_fully_vaccinated[i])
+    count = [int(row[1]) for row in result]
+    print("Global population fully vaccinated:", sum(count))
+    return sum(count)
 
 
 # The section below will be executed when you run this file.
