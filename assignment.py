@@ -9,6 +9,8 @@ u7167784
 """
 import csv
 
+from numpy import sort
+
 
 def analyse(path_to_file):
     print("Analysing data file", path_to_file)
@@ -25,8 +27,12 @@ def analyse(path_to_file):
     global_fully_population_vaccinated(table_without_header)
     # Question 2
     print("\nQuestion 2:")
+    # Question 3
+    print("\nQuestion 3:")
+    earliest_countries(table_without_header)
+    peak_days(table_without_header)
 
-
+# 1a
 def count_unique_locations(table):
     """
     Count how many unique locations are there in the data file.
@@ -39,7 +45,7 @@ def count_unique_locations(table):
     print("Number of unique locations:", len(locations))
     return len(locations)
 
-
+# 1b
 def count_unique_countries(table):
     """
     Count the number of unique countries (that do not have OWID_ prefix in the iso_code).
@@ -56,7 +62,7 @@ def count_unique_countries(table):
     print("Number of unique countries:", count)
     return count
 
-
+# 1c
 def global_vaccince_doses(table):
     """
     Count the total number of vaccine doses that have been globally administered in all countries.
@@ -75,7 +81,7 @@ def global_vaccince_doses(table):
     print("Global vaccince doses:", sum(count))
     return sum(count)
 
-
+# 1d
 def global_population_vaccinated(table):
     """
     Count the global number of people who have received at least one dose over all countries in the world.
@@ -112,6 +118,36 @@ def global_fully_population_vaccinated(table):
     count = [int(row[1]) for row in result]
     print("Global population fully vaccinated:", sum(count))
     return sum(count)
+
+# 3a
+def earliest_countries(table):
+    countries_date = [[row[0], row[2]] for row in table if "OWID_" not in row[1] and row[3] != "" and int(row[3]) > 0]
+    result = []
+    result.append(countries_date[0])
+    for i in range(1, len(countries_date)-1):
+        if(i == len(countries_date)-1 or countries_date[i][0] != countries_date[i+1][0]):
+            result.append(countries_date[i+1])
+    date_list = [row[1] for row in result]
+    date_list.sort()
+    date_list = list(set(date_list[0:10]))
+    date_list.sort()
+    top10_countries_date = []
+    for date_value in date_list:
+        for row in result:
+            if date_value == row[1]:
+                top10_countries_date.append([row[0], date_value])
+                print(row[0]+": first vaccinated on",date_value)
+    return top10_countries_date
+
+# 3b
+def peak_days(table):
+    top10_countries_date = earliest_countries(table)
+
+    countries_daily_vaccinations = [[row[0], int(row[8]),  row[2]] for row in table if "OWID_" not in row[1] and row[8] != "" and int(row[8]) > 0]
+    for country_date in top10_countries_date:
+        each_country_daily_vaccinations = [row for row in countries_daily_vaccinations if country_date[0] == row[0]]
+        max_daily_vaccinations = max(each_country_daily_vaccinations)
+        print(country_date[0] + ": first vaccinated on " + country_date[1] + " , " + str(max_daily_vaccinations[1]) + " people vaccinated on " + max_daily_vaccinations[2])
 
 
 # The section below will be executed when you run this file.
