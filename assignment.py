@@ -19,18 +19,19 @@ def analyse(path_to_file):
         table = [row for row in reader]
     table_without_header = [table[i] for i in range(1, len(table))]
     # Question 1
-    print("\nQuestion 1:")
-    unique_locations = count_unique_locations(table_without_header)
-    unique_countries = count_unique_countries(table_without_header)
-    global_vaccince_doses(table_without_header)
-    global_population_vaccinated(table_without_header)
-    global_fully_population_vaccinated(table_without_header)
+    # print("\nQuestion 1:")
+    # unique_locations = count_unique_locations(table_without_header)
+    # unique_countries = count_unique_countries(table_without_header)
+    # global_vaccince_doses(table_without_header)
+    # global_population_vaccinated(table_without_header)
+    # global_fully_population_vaccinated(table_without_header)
     # Question 2
     print("\nQuestion 2:")
+    vaccinations_by_country(table_without_header)
     # Question 3
     print("\nQuestion 3:")
     earliest_countries(table_without_header)
-    peak_days(table_without_header)
+    # peak_days(table_without_header)
 
 # 1a
 def count_unique_locations(table):
@@ -119,6 +120,24 @@ def global_fully_population_vaccinated(table):
     print("Global population fully vaccinated:", sum(count))
     return sum(count)
 
+
+# 2a
+def vaccinations_by_country(table):
+    countries_vaccinations_rate = [[row[0], row[4], float(row[10])] for row in table if "OWID_" not in row[1] and row[4] != "" 
+    and row[10] != "" and float(row[10]) != 0.0 and int(row[4])/float(row[10]) > 10000]
+    result = []
+    for i in range(len(countries_vaccinations_rate)):
+        if(i == len(countries_vaccinations_rate)-1 or countries_vaccinations_rate[i][0] != countries_vaccinations_rate[i+1][0]):
+            result.append(countries_vaccinations_rate[i])
+    result.sort(key = lambda x:x[2],reverse=True)
+    for row in result[0:10]:
+        print(row[0]+": "+str(row[2])+"% population vaccinated")
+    return result
+    
+
+def fun(x):
+    return x[1]
+
 # 3a
 def earliest_countries(table):
     countries_date = [[row[0], row[2]] for row in table if "OWID_" not in row[1] and row[3] != "" and int(row[3]) > 0]
@@ -127,17 +146,27 @@ def earliest_countries(table):
     for i in range(1, len(countries_date)-1):
         if(i == len(countries_date)-1 or countries_date[i][0] != countries_date[i+1][0]):
             result.append(countries_date[i+1])
-    date_list = [row[1] for row in result]
-    date_list.sort()
-    date_list = list(set(date_list[0:10]))
-    date_list.sort()
-    top10_countries_date = []
-    for date_value in date_list:
-        for row in result:
-            if date_value == row[1]:
-                top10_countries_date.append([row[0], date_value])
-                print(row[0]+": first vaccinated on",date_value)
-    return top10_countries_date
+    # top10_countries_date = topN(result, 1, 10, False)
+    # for countries_date in top10_countries_date:
+    #     print(countries_date[0]+": first vaccinated on",countries_date[1])
+
+    # result.sort(key = lambda x:x[1])
+    result.sort(key = fun)
+    for row in result[0:10]:
+        print(row[0]+": first vaccinated on",row[1])
+    return result
+    
+    # date_list = [row[1] for row in result]
+    # date_list.sort()
+    # date_list = list(set(date_list[0:10]))
+    # date_list.sort()
+    # top10_countries_date = []
+    # for date_value in date_list:
+    #     for row in result:
+    #         if date_value == row[1]:
+    #             top10_countries_date.append([row[0], date_value])
+    #             print(row[0]+": first vaccinated on",date_value)
+    # return top10_countries_date
 
 # 3b
 def peak_days(table):
@@ -149,6 +178,23 @@ def peak_days(table):
         max_daily_vaccinations = max(each_country_daily_vaccinations)
         print(country_date[0] + ": first vaccinated on " + country_date[1] + " , " + str(max_daily_vaccinations[1]) + " people vaccinated on " + max_daily_vaccinations[2])
 
+def topN(table, target, N, reverse):
+    target_list = [row[target] for row in table]
+    if reverse == True:
+        target_list.sort(reverse=True)
+    else:
+        target_list.sort()
+    target_list = list(set(target_list[0:N]))
+    if reverse == True:
+        target_list.sort(reverse=True)
+    else:
+        target_list.sort()
+    topN_result = []
+    for data in target_list:
+        for row in table:
+            if data == row[target]:
+                topN_result.append(row)
+    return topN_result
 
 # The section below will be executed when you run this file.
 # Use it to run tests of your analysis function on the data
