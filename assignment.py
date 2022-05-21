@@ -264,3 +264,4 @@ def fully_vaccinated_rate(table):
 if __name__ == '__main__':
     # test on a CSV file
     analyse('./vaccinations.csv')
+    analyse('./vaccinations_shuffled.csv')
