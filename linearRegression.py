@@ -4,11 +4,22 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 import datetime as dt
 
+# Russia: 50.06% population fully vaccinated, 160 days to 80%
+# Falkland Islands: 50.31% population fully vaccinated, 127 days to 80%
+# Trinidad and Tobago: 50.6% population fully vaccinated, 97 days to 80%
+# Slovakia: 50.72% population fully vaccinated, 135 days to 80%
+# Belize: 51.76% population fully vaccinated, 94 days to 80%
+# Turkmenistan: 52.41% population fully vaccinated, 95 days to 80%
+# Barbados: 52.65% population fully vaccinated, 158 days to 80%
+# Tunisia: 53.22% population fully vaccinated, 78 days to 80%
+# Pakistan: 53.27% population fully vaccinated, 198 days to 80%
+# Botswana: 53.92% population fully vaccinated, 159 days to 80%
+
 
 def predict(path_to_file):
     print("Analysing data file", path_to_file)
     data = pd.read_csv(path_to_file)
-    analyse(data, "Japan", 100)
+    analyse(data, "Botswana", 80)
 
 
 def analyse(data, country, rate):
