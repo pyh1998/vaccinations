@@ -12,6 +12,11 @@ import datetime
 
 
 def analyse(path_to_file):
+    """
+    This function is used to print out the results of the analysis of COVID-19 vaccinations
+
+    :param path_to_file: the complete path to the data file (CSV file) that it should read and analyse
+    """
     print("Analysing data file", path_to_file)
     with open(path_to_file) as csvfile:
         reader = csv.reader(csvfile)
@@ -119,7 +124,7 @@ def top10_highest_vaccinated_population(table, countries):
 
     # print the top 10 result
     for row in result[0:10]:
-        print(row[0] + ": " + str(row[3]) + "% population vaccinated," + str(
+        print(row[0] + ": " + str(row[3]) + "% population vaccinated,", str(
             round(float(row[3]) - float(row[4]), 2)) + "% partly vaccinated")
 
 
@@ -139,7 +144,6 @@ def top10_earliest_vaccinated(table, countries):
     result = []
     for country in countries:
         country_vaccine = [row for row in table_preprocessed if row[1] == country]
-        print(country_vaccine[0:3])
         if country_vaccine:
             # Sorted by date from early to late
             country_vaccine.sort(key=lambda x: x[2])
@@ -238,5 +242,5 @@ def list_times_list(list1, list2):
 
 if __name__ == '__main__':
     # test on a CSV file
-    analyse('./vaccinations.csv')
-    # analyse('./vaccinations_shuffled.csv')
+    # analyse('./vaccinations.csv')
+    analyse('./vaccinations_shuffled.csv')
