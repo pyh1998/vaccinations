@@ -242,5 +242,5 @@ def list_times_list(list1, list2):
 
 if __name__ == '__main__':
     # test on a CSV file
-    # analyse('./vaccinations.csv')
-    analyse('./vaccinations_shuffled.csv')
+    analyse('./vaccinations.csv')
+    # analyse('./vaccinations_shuffled.csv')
