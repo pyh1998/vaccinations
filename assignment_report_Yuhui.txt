@@ -13,15 +13,35 @@ Question 2: If you are part of a group, write the ANU IDs of ALL
 members of this group. If you are doing the assignment on your own
 (not part of a group), just write "not part of a group".
 
-u7211790
-u7167784
+Group member 1: Yuhui Pang u7211790
+Group member 2: Man Jin u7167784
 
 -------------------------------------------------------------------
 
 Question 3: Select a piece of code in your assignment solution that
-you have written, and explain:    
+you have written, and explain:
+
+Code:
+    # build a linear regression model to predict
+    start_date = country_fully_vaccinated[0][0]  # the first date of vaccination
+    date_list = []  # independent variable
+    fully_vaccinated_list = []  # dependent variable
+    for row in country_fully_vaccinated:
+        # change the date to number of days from start_date
+        date_list.append((datetime.datetime.strptime(row[0], "%Y-%m-%d") -
+                          datetime.datetime.strptime(start_date, "%Y-%m-%d")).days)
+        fully_vaccinated_list.append(float(row[1]))
+    # predict function: y = kx + b (y:fully_vaccinated x:number of days)
+    # using the formula in the reference above to calculate 'k' and 'b'
+    n = len(date_list)
+    k = (n * list_times_list(date_list, fully_vaccinated_list) - sum(date_list) * sum(fully_vaccinated_list)) \
+        / (n * list_times_list(date_list, date_list) - sum(date_list) ** 2)
+    b = (sum(fully_vaccinated_list) - k * sum(date_list)) / n
 
 (a) What does this piece of code do?
+    This piece of code is used to build a linear regression model to predict
+    how many days the top 10 countries would take to get to 80% population
+    fully vaccinated. It's in function ""
 
 (b) How does it work?
 

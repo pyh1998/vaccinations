@@ -33,14 +33,14 @@ def analyse(path_to_file):
 
     # Question 2
     print("\nQuestion 2:")
-    vaccinations_by_country(table_without_header, unique_countries)
+    top10_highest_vaccinated_population(table_without_header, unique_countries)
 
     # Question 3
     print("\nQuestion 3:")
-    earliest_countries(table_without_header, unique_countries)
+    top10_earliest_vaccinated(table_without_header, unique_countries)
 
     print("\nQuestion 4:")
-    fully_vaccinated_rate(table_without_header, unique_countries)
+    top10_lowest_fully_vaccinated(table_without_header, unique_countries)
 
 
 # q1a
@@ -93,7 +93,7 @@ def global_vaccine_statistics(table, countries, index):
 
 
 # q2
-def vaccinations_by_country(table, countries):
+def top10_highest_vaccinated_population(table, countries):
     """
     This function is used to find the top 10 countries with a population of at least 1 million having the highest
     percentage of their population being vaccinated with at least one dose and report the percentage of population
@@ -124,7 +124,7 @@ def vaccinations_by_country(table, countries):
 
 
 # q3
-def earliest_countries(table, countries):
+def top10_earliest_vaccinated(table, countries):
     """
     This function is used to find the top 10 countries that earliest in getting their people vaccinated and
     which day they administered the highest vaccinations across all days in that country.
@@ -158,7 +158,7 @@ def earliest_countries(table, countries):
 
 
 # q4
-def fully_vaccinated_rate(table, countries):
+def top10_lowest_fully_vaccinated(table, countries):
     """
     This function is to find the 10 countries the lowest percentage of fully vaccinated people, where these percentages
     are greater 50%. And predict how many days they would take to get to 80% population fully vaccinated.
