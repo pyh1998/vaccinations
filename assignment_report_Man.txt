@@ -60,6 +60,7 @@ you have written, and explain:
     2. Reassign the country_vaccine because daily_vaccinations cannot be empty.
     3. I can sort each group according to the daily_vaccinations and then get the max_daily_date and max_daily_number
     4. Get the result sort by the earliest_date.
+
 (c) What other possible ways did you consider to implement this
 functionality, and why did you choose the one you did?
     The other method I considered is to put step 2 and step 3 outside, which means finding 
