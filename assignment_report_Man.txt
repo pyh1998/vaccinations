@@ -4,7 +4,8 @@ Individual report for the COMP1730/6730 project assignment S1 2022
 
 Question 1: Write your name and ANU ID
 
-
+Name: Man Jin
+ANU ID: u7167784
 
 -------------------------------------------------------------------
 
@@ -12,18 +13,59 @@ Question 2: If you are part of a group, write the ANU IDs of ALL
 members of this group. If you are doing the assignment on your own
 (not part of a group), just write "not part of a group".
 
-
+Name: Man Jin
+ANU ID: u7167784
+Name: Yuhui Pang
+ANU ID: u7211790
 
 -------------------------------------------------------------------
 
 Question 3: Select a piece of code in your assignment solution that
 you have written, and explain:    
-
+#Q3 The function named: top10_earliest_vaccinated(table, countries)
+    table_preprocessed = [[row[0], row[1], row[2], row[8]] for row in table if
+                          "OWID_" not in row[1] and row[3] != "" and int(row[3]) > 0]
+    result = []
+    for country in countries:
+        country_vaccine = [row for row in table_preprocessed if row[1] == country]
+        if country_vaccine:
+            # Sorted by date from early to late
+            country_vaccine.sort(key=lambda x: x[2])
+            earliest_date = country_vaccine[0][2]
+            country_vaccine = [row for row in country_vaccine if row[3] != ""]
+            # Sorted by daily_vaccinations from large to small
+            country_vaccine.sort(key=lambda x: int(x[3]), reverse=True)
+            max_daily_date = country_vaccine[0][2]
+            max_daily_number = country_vaccine[0][3]
+            result.append([country_vaccine[0][0], earliest_date, max_daily_number, max_daily_date])
+    # Sort the result by date from early to late
+    result.sort(key=lambda x: x[1])
+    # print the top 10 result
+    for row in result[0:10]:
+        print("...")
 (a) What does this piece of code do?
+    This function is used to determine the top ten countries that were 
+    the first to vaccinate their citizens and which day they administered 
+    the most vaccinations over all days in that country. 
+    Print the result like: "Latvia: first vaccinated on 2020-12-04 , 17035 people vaccinated on 2021-06-02"
+    The first parameter is table: A list of lists (each row) of each country's data.
+    The first parameter is countries: A list of unique countries.
 
 (b) How does it work?
-
+    Table_preprocessed gets a table that meets the requirements and did some data pre-processing. 
+    One thing that needs to notice is row[3] should be greater than 0.
+    Then I can get the list of unique countries, and iterate each country to group the information 
+    according to the country, which means I can handle the data country by country.
+    1. I can sort each group according to the date and then get the earliest_date.
+    2. Reassign the country_vaccine because daily_vaccinations cannot be empty.
+    3. I can sort each group according to the daily_vaccinations and then get the max_daily_date and max_daily_number
+    4. Get the result sort by the earliest_date.
 (c) What other possible ways did you consider to implement this
 functionality, and why did you choose the one you did?
+    The other method I considered is to put step 2 and step 3 outside, which means finding 
+    the max daily vaccination number and peak days after getting to the top 10 countries.
+    I tried it and check the running time of these two methods. The outcome is 1.9s when I wrote them in one for loop, 
+    but 2.45s when I divide question 3 into 2 parts (needs 2 for loops).
+    Therefore, I tried to put these two questions in the one for loop and print the result at the same time.
 
 -------------------------------------------------------------------
