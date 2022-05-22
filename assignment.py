@@ -139,6 +139,7 @@ def top10_earliest_vaccinated(table, countries):
     result = []
     for country in countries:
         country_vaccine = [row for row in table_preprocessed if row[1] == country]
+        print(country_vaccine[0:3])
         if country_vaccine:
             # Sorted by date from early to late
             country_vaccine.sort(key=lambda x: x[2])
