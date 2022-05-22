@@ -41,11 +41,44 @@ Code:
 (a) What does this piece of code do?
     This piece of code is used to build a linear regression model to predict
     how many days the top 10 countries would take to get to 80% population
-    fully vaccinated. It's in function ""
+    fully vaccinated. It uses the analytical solution of unitary linear regression
+    as the formula and does not use any other libraries.
+
+    It's in function top10_lowest_fully_vaccinated(table, countries), which
+    is used to answer the question 4.
+
+    Reference: "Linear Regression by Hand" (https://towardsdatascience.com/linear-regression-by-hand-ee7fe5a751bf)
 
 (b) How does it work?
+    This function use the number of days as independent variable and fully vaccinated
+    percentage as dependent variable to build a linear regression model. It calculates
+    the error function by least squares method.
+
+    Let the predict function be y = kx + b (y is fully vaccinated percentage and x is days from start date)
+    Err = sum[(yi - (kxi + b))^2]
+
+    To minimize the error, Calculate the derivative of the error function and
+    make the derivative equal to zero to obtain the analytical solutions of k and b.
+
+    k = (n * sum(xy) - sum(x) * sum(y)) / (n * sum(x^2) - sum(x)^2)
+    b = (sum(y) - k * sum(x)) / n
 
 (c) What other possible ways did you consider to implement this
 functionality, and why did you choose the one you did?
+    To predict the days to get to 80% population fully vaccinated, we could build
+    other models except linear regression.
+
+    As can be seen from the images of vaccination rates and dates for individual countries,
+    the images for some countries do not increase linearly, often with larger rates of
+    increase in the middle of the period and smaller rates in the early and late periods.
+    A polynomial regression can therefore be considered for curve fitting. In addition,
+    consideration could be given to using data other than complete vaccination percentages,
+    such as data relating to daily vaccination.
+
+    As we cannot import some packages like numpy and scipy etc. in this assignment.
+    It is relatively too complicated to calculate the analytical solution of the polynomial regression.
+    Therefore, linear regression with one variable is the most appropriate, not only does it use all
+    the data for training, but also it is not too computationally intensive and the analytical solution
+    can be calculated in the form of a formula.
 
 -------------------------------------------------------------------
